@@ -32,8 +32,9 @@ trait TimedThreadedTest {
 //    debug(s"$testName completed: duration= $lduration")
     CallRet(name, result, lduration)
   }
+  case class TTestResult[T](tname : String, callRets : ArrayBuffer[CallRet[T]] , lduration : Float)
 
-  def threadedTest[T](testName: String, tests: Seq[TestRunner[T]]) = {
+  def threadedTest[T](testName: String, tests: Seq[TestRunner[T]]) : /* (String, ArrayBuffer[CallRet[T]], Float) */ TTestResult[T]  = {
     val nThreads = tests.length
     val threads = new ArrayBuffer[Thread](nThreads)
     val barrier = new CyclicBarrier(nThreads)
@@ -50,8 +51,10 @@ trait TimedThreadedTest {
         }
       })
     }
-    calls.toList.map(_.get).foreach(println)
-    log(s"** Completed $testName duration=${duration(start)}**")
+    val rets = calls.map(_.get)
+    val lduration= duration(start)
+    log(s"** Completed $testName duration=$lduration**")
+    new TTestResult(testName, rets, lduration)
   }
 
   def log(msg: String) = {

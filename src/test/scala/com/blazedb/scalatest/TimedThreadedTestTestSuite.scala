@@ -14,6 +14,7 @@ import org.scalatest.FunSuite
 class TimedThreadedTestTestSuite extends FunSuite with TimedThreadedTest {
 
   test("demonstrate fine grained synchronization using monitors on interned strings") {
+    type TType = Any
     def takeSomeTime() = {
       Thread.sleep(200)
     }
@@ -29,33 +30,36 @@ class TimedThreadedTestTestSuite extends FunSuite with TimedThreadedTest {
 
     val frunners = Array.tabulate(NItems)(n => {
       val tname = s"FineGrainedRunner-$n"
-      new TestRunner[Any](tname, new Callable[Any]() {
-        override def call(): CallRet[Any] = {
+      new TestRunner[TType](tname, new Callable[TType]() {
+        override def call(): CallRet[TType] = {
           val start = new Date().getTime
           testItems(n).synchronized {
             takeSomeTime()
           }
-          CallRet[Any](tname, None, duration(start))
+          CallRet[TType](tname, None, duration(start))
         }
       })
     })
     val crunners = Array.tabulate(NItems)(n => {
       val tname = s"CoarseGrainedRunner-$n"
-      new TestRunner[Any](tname, new Callable[Any]() {
-        override def call(): CallRet[Any] = {
+      new TestRunner[TType](tname, new Callable[TType]() {
+        override def call(): CallRet[TType] = {
           val start = new Date().getTime
           testItems.synchronized {
             takeSomeTime()
           }
-          CallRet(tname, None, duration(start))
+          CallRet[TType](tname, None, duration(start))
         }
       })
     })
     val tests = Seq(("FineGrainedTests", frunners), ("CoarseGrainedTests", crunners))
+    val durations = mutable.Map[String, Float]()
     tests.foreach { case (tname, runners) => {
-      threadedTest(tname, runners)
+      val ttestRes = threadedTest[Any](tname, runners)
+      durations(tname) = ttestRes.lduration
     }
     }
+    assert(durations("FineGrainedTests") < 1.05 * durations("CoarseGrainedTests") / tests.length, "We should be within 5% of linear speedup over the coarse grained approach")
     log("HEY we are done!")
   }
 }
