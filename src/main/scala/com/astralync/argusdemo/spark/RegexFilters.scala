@@ -5,8 +5,8 @@ import java.util.Date
 import org.apache.spark.{SparkConf, SparkContext}
 
 import scala.collection.mutable
+import scala.collection.mutable.{Map => MMap}
 import scala.util.parsing.json.JSON
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
