@@ -30,15 +30,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <java.version>1.7</java.version>
-        <hadoop.version>2.4.1</hadoop.version>
-        <spark.version>1.2.0</spark.version>
+        <java.version>1.8</java.version>
+        <!--<hadoop.version>2.4.1</hadoop.version>-->
+        <spark.version>1.4.1</spark.version>
         <scala.binary.version>2.11</scala.binary.version>
-        <scala.version>2.11.1</scala.version>
-        <scala.macros.version>2.0.1</scala.macros.version>
+        <scala.version>2.11.7</scala.version>
+        <!-- <scala.macros.version>2.0.1</scala.macros.version> -->
         <slf4j.version>1.7.5</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
-        <PermGen>128m</PermGen>
+        <PermGen>192m</PermGen>
         <MaxPermGen>512m</MaxPermGen>
     </properties>
 
@@ -52,10 +52,6 @@
             <id>Akka repository</id>
             <url>http://repo.akka.io/releases</url>
         </repository>
-        <repository>
-            <id>Spark repository</id>
-            <url>http://www.sparkjava.com/nexus/content/repositories/spark/</url>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -65,7 +61,12 @@
         </pluginRepository>
     </pluginRepositories>
     <dependencies>
-        <dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.google.guava</groupId>-->
+        <!--<artifactId>guava</artifactId>-->
+        <!--<version>16.0</version>-->
+        <!--</dependency>-->
+        <!-- <dependency>
             <groupId>org.apache.mahout</groupId>
             <artifactId>mahout-math-scala</artifactId>
             <version>0.9</version>
@@ -79,17 +80,17 @@
             <groupId>org.apache.mahout</groupId>
             <artifactId>mahout-core</artifactId>
             <version>0.9</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${hadoop.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.hadoop</groupId>-->
+            <!--<artifactId>hadoop-client</artifactId>-->
+            <!--<version>${hadoop.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_${scala.binary.version}</artifactId>
@@ -116,15 +117,21 @@
             <version>${spark.version}</version>
         </dependency>
         <!--<dependency>-->
+            <!--<groupId>org.scala-lang.modules</groupId>-->
+            <!--<artifactId>scala-parser-combinators</artifactId>-->
+            <!--<version>1.0.4</version>-->
+        <!--</dependency>-->
+        
+        <!--<dependency>-->
             <!--<groupId>org.apache.spark</groupId>-->
             <!--<artifactId>spark-yarn_${scala.binary.version}</artifactId>-->
             <!--<version>${spark.version}</version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-examples_${scala.binary.version}</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.spark</groupId>-->
+            <!--<artifactId>spark-examples_${scala.binary.version}</artifactId>-->
+            <!--<version>${spark.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>net.alchim31.maven</groupId>
             <artifactId>scala-maven-plugin</artifactId>
@@ -166,7 +173,7 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>3.2.0</version>
+                <!-- <version>3.2.0</version> -->
                 <executions>
                     <execution>
                         <goals>
@@ -177,7 +184,7 @@
                 </executions>
                 <configuration>
                     <jvmArgs>
-                        <jvmArg>-Xms64m</jvmArg>
+                        <jvmArg>-Xms512m</jvmArg>
                         <jvmArg>-Xmx1024m</jvmArg>
                     </jvmArgs>
                 </configuration>
@@ -185,11 +192,11 @@
             <plugin>
                 <groupId>org.scalatest</groupId>
                 <artifactId>scalatest-maven-plugin</artifactId>
-                <version>1.0</version>
+
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+
             </plugin>
         </plugins>
     </build>

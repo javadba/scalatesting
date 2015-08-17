@@ -1,12 +1,11 @@
-package com.blazedb.scalatest
+package com.blazedb.ml
 
 import java.io.File
 
 import org.apache.avro.mapred.SequenceFileReader
-import org.apache.hadoop.io.{NullWritable, Text}
-import org.apache.mahout.math.{Vector => MVector}
+import org.apache.hadoop.io.Text
+//import org.apache.mahout.math.{Vector => MVector}
 import org.apache.spark.SparkContext
-import org.apache.spark.mllib.linalg.Vectors
 import org.scalatest.FunSuite
 
 /*
@@ -34,13 +33,13 @@ class MahoutMathTest extends FunSuite {
   test("vector") {
     val N = 20
     val dir = "/some/hdfs/dir"
-    val sfreader= new SequenceFileReader[Text, MVector](new File(dir))
+//    val sfreader= new SequenceFileReader[Text, MVector](new File(dir))
     val sc = new SparkContext("local[2]", "MahoutTest")
-    val sfData = sc.sequenceFile[NullWritable, MVector](dir)
-    val xformedVectors = sfData.map { case (label, vect) =>
-      import scala.collection.JavaConversions._
-      (label, Vectors.dense(vect.all.iterator.map{ e => e.get}.toArray))
-    }
+//    val sfData = sc.sequenceFile[NullWritable, MVector](dir)
+//    val xformedVectors = sfData.map { case (label, vect) =>
+//      import scala.collection.JavaConversions._
+//      (label, Vectors.dense(vect.all.iterator.map{ e => e.get}.toArray))
+//    }
 
   }
 
