@@ -33,12 +33,12 @@ object RegexFilters {
   def main(args: Array[String]) = {
     val DtName = "interaction_created_at"
     // John you need to set this to an input HttpReqParam
-    var JsonPosRex = """{"Party":"(?i-mx:(\\b(party|parties)\\b))",
+    val JsonPosRegex = """{"Party":"(?i-mx:(\\b(party|parties)\\b))",
           "New Years Eve":"(?i-mx:(\\b(new)\\b))",
           "Beer":"(?i-mx:(\\b(beer|drunk|drink)\\b))",
           "Resolutions":"(?i-mx:(\\b(resolution|resolv)\\b))"}"""
     // John you need to set this to an input HttpReqParam
-    var JsonNegRex = """{"Party":"(?i-mx:(\\b(birthday)\\b))",
+    val JsonNegRegex = """{"Party":"(?i-mx:(\\b(birthday)\\b))",
           "Beer":"(?i-mx:(\\b(bud|budweiser)\\b))"}
                      """
 
@@ -48,7 +48,7 @@ object RegexFilters {
 
     if (args.length == 0) {
       System.err.println("""Usage: RegexFilters <master> <datadir> <#partitions> <#loops> <cacheEnabled true/false> <groupByFields separated by commas no spaces>
-        e.g. RegexFilters spark://192.168.15.43:7077 hdfs://i386:9000/user/stephen/data 56 3 true interaction_created_at,state_province""")
+        e.g. RegexFilters spark://192.168.15.43:7077 hdfs://i386:9000/user/stephen/data 56 3 true posregexFile.json negregexfile.json interaction_created_at,state_province""")
       System.exit(1)
     }
     val homeDir = "/home/stephen"
@@ -58,10 +58,13 @@ object RegexFilters {
     val nloops = if (args.length >= 4) args(3).toInt else 3
     val cacheEnabled = if (args.length >= 5) args(4).toBoolean else false
     // GROUP BY FIELDS: will drive the grouping key's!
-    val groupByFields = if (args.length >= 6) args(5).split(",").toList else List()
+    val posRegex= if (args.length >= 6) scala.io.Source.fromFile(args(5)).mkString("") else JsonPosRegex
+    val negRegex = if (args.length >= 7) scala.io.Source.fromFile(args(6)).mkString("") else JsonNegRegex
+    val groupByFields = if (args.length >= 8) args(7).split(",").toList else List()
     var conf = new SparkConf().setAppName("Simple Application").setMaster(master)
     var sc2 = new SparkContext(conf)
     println(s"Connecting to master=${conf.get("spark.master")} reading dir=$dataFile using nPartitions=$nparts and caching=$cacheEnabled .. ")
+    println(s"PosRegex=$posRegex\nNegRegex=$negRegex")
     val rddData = sc2.textFile(dataFile, nparts)
     if (cacheEnabled) {
       rddData.cache()
@@ -72,9 +75,9 @@ object RegexFilters {
       val d = new Date
       println(s"** Loop #${nloop + 1} starting at $d **")
       val resultMap = MMap[String, Any]()
-      val jsonPos = JSON.parseFull(JsonPosRex)
+      val jsonPos = JSON.parseFull(posRegex)
       val jsonPosMap = jsonPos.get.asInstanceOf[Map[String, Any]]
-      val jsonNeg = JSON.parseFull(JsonNegRex)
+      val jsonNeg = JSON.parseFull(negRegex)
       val jsonNegMap = jsonNeg.get.asInstanceOf[Map[String, Any]]
       val posRegexMap = for ((k, v) <- jsonPosMap) yield {
         (k, v.asInstanceOf[String].r)
