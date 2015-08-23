@@ -3,7 +3,7 @@ package com.blazedb.scalatest
 /**
  * ThreadedTestTestSuite
  *
- * Created by sboesch@apple.com on 7/22/14
+ * Created by javadba@gmail.com on 7/22/14
  */
 
 import java.util.Date

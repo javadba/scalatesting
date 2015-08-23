@@ -17,17 +17,17 @@ trait TimedThreadedTest {
 
   val logger = Logger.getLogger(getClass.getName)
 
-  type TestRunner[T] = (String, Callable[T])
+  case class TestRunner[T](name: String, callable: Callable[T])
 //  type TimedRunner[T] = (TestRunner[T], Float)
   case class CallRet[T](testName: String, result: T, duration: Float)  {
     override def toString = s"TestResult for $testName: result=$result duration=$duration"
   }
 
   def timedTest[T](barrier: CyclicBarrier, testRunner: TestRunner[T]): CallRet[T] = {
-    val testName = testRunner._1
+    val testName = testRunner.name
     barrier.await
     val startTime = new Date().getTime
-    val (name, result) : (String, T)  = (testRunner._1, testRunner._2.call)
+    val (name, result) : (String, T)  = (testRunner.name, testRunner.callable.call)
     val lduration = duration(startTime)
 //    debug(s"$testName completed: duration= $lduration")
     CallRet(name, result, lduration)
