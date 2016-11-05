@@ -1,45 +1,26 @@
 package com.example.app
 
 import com.astralync.argusdemo.spark.com.example.app.MyScalatraWebAppStack
-import org.fusesource.scalate
-import org.json4s.{DefaultFormats, Formats}
+import net.liftweb.json.{NoTypeHints, Serialization}
+import org.slf4j.LoggerFactory
 
-import org.scalatra._
-import scala.xml.{Text, Node}
-
-import net.liftweb.json.compact
-import net.liftweb.json.render
-import net.liftweb.json.JsonDSL._
-import net.liftweb.json.Serialization.{read, write}
-import net.liftweb.json.Serialization
-import net.liftweb.json.NoTypeHints
-
-import org.slf4j.{Logger, LoggerFactory}
+import scala.xml.Node
 
 // JSON handling support from Scalatra
 
-import org.scalatra.json._
-
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
-
-import scala.collection.mutable.{Map => MMap}
-import scala.collection.mutable
-
-import scala.util.matching.Regex
-import scala.util.parsing.json._
-import scala.collection.mutable.{Map => MMap}
 import java.io.Serializable
 import java.util.Date
 import javax.servlet._
-import org.fusesource.scalate._
-import net.liftweb.json.JsonAST._
-import scalate.ScalateSupport
 
+import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
 
-class MyScalatraServlet extends MyScalatraWebAppStack  with Serializable /* with JacksonJsonSupport */ with ScalateSupport {
+import scala.collection.mutable
+import scala.collection.mutable.{Map => MMap}
+import scala.util.matching.Regex
+import scala.util.parsing.json._
+
+class MyScalatraServlet extends MyScalatraWebAppStack  with Serializable  {
 
   implicit val formats = Serialization.formats(NoTypeHints)
 
