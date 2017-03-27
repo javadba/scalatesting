@@ -31,11 +31,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <java.version>1.8</java.version>
-        <!--<hadoop.version>2.4.1</hadoop.version>-->
-        <spark.version>2.0.1</spark.version>
+        <spark.version>1.6.1</spark.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.7</scala.version>
-        <!-- <scala.macros.version>2.0.1</scala.macros.version> -->
         <slf4j.version>1.7.5</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <PermGen>192m</PermGen>
@@ -81,34 +79,28 @@
             <artifactId>mahout-core</artifactId>
             <version>0.9</version>
         </dependency> -->
+<!-- <dependency>
+    <groupId>org.http4s</groupId>
+    <artifactId>http4s-blaze-server_2.10</artifactId>
+    <version>0.15.1a</version>
+</dependency>
         <dependency>
-            <groupId>org.scalatra</groupId>
-            <artifactId>scalatra_2.11</artifactId>
-            <version>2.4.0.M3</version>
-        </dependency>
+    <groupId>org.http4s</groupId>
+    <artifactId>http4s-servlet_2.10</artifactId>
+    <version>0.15.1a</version>
+</dependency>
+    <dependency>
+    <groupId>org.http4s</groupId>
+    <artifactId>http4s-server_2.10</artifactId>
+    <version>0.15.1a</version>
+</dependency> -->
 
-        <dependency>
-            <groupId>org.scalatra</groupId>
-            <artifactId>scalatra-scalate_2.11</artifactId>
-            <version>2.4.0.M3</version>
-        </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>org.scalatra.scalate</groupId>-->
-        <!--<artifactId>scalate-web_2.11</artifactId>-->
-        <!--<version>1.7.1</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.scalatra</groupId>
-            <artifactId>scalatra-json</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.liftweb</groupId>
-            <artifactId>lift-json_2.11</artifactId>
-            <version>3.0-M6</version>
-        </dependency>
+<!-- https://mvnrepository.com/artifact/com.twitter/parquet-avro -->
+<dependency>
+    <groupId>com.twitter</groupId>
+    <artifactId>parquet-avro</artifactId>
+    <version>1.6.0</version>
+</dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -185,15 +177,15 @@
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.binary.version}</artifactId>
-            <version>2.2.2</version>
+            <version>3.0.1</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.scalacheck</groupId>
-            <artifactId>scalacheck_${scala.binary.version}</artifactId>
-            <scope>test</scope>
-            <version>1.11.5</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.scalacheck</groupId>-->
+            <!--<artifactId>scalacheck_${scala.binary.version}</artifactId>-->
+            <!--<scope>test</scope>-->
+            <!--<version>1.11.5</version>-->
+        <!--</dependency>-->
     </dependencies>
     <build>
         <outputDirectory>target/scala-${scala.binary.version}/classes</outputDirectory>

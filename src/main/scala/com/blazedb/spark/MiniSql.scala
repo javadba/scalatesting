@@ -184,3 +184,8 @@ class MiniSqlParser {
 //    | '/' ~ '*' ~ failure("unclosed comment")
 //    ).*
 }
+
+object MiniSqlParser {
+  def main(args: Array[String]): Unit = {
+    println("hello sql world")
+  }}
